@@ -20,6 +20,7 @@
     "framer-motion": "^11.18.2",
     "gsap": "^3.12.7",
     "lenis": "^1.1.20",
+    "leva": "^0.9.35",
     "locomotive-scroll": "^4.1.4",
     "mini-svg-data-uri": "^1.4.4",
     "next": "14.2.4",
@@ -32,8 +33,7 @@
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "three": "^0.166.1",
-    "three-globe": "^2.41.12",
-    "leva": "^0.9.35"
+    "three-globe": "^2.41.12"
   },
   "devDependencies": {
     "@types/locomotive-scroll": "^4.1.4",
@@ -43,6 +43,7 @@
     "eslint": "^8.57.1",
     "eslint-config-next": "14.2.4",
     "postcss": "^8.5.3",
+    "puppeteer-core": "^25.8.0",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.3"
   },
