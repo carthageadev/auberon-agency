@@ -8,7 +8,7 @@ const Services = () => {
         Our Services
       </h3>
       <>
-        <div className="absolute pointer-events-none inset-0 top-0 flex items-center justify-center bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
+        <div className="absolute pointer-events-none inset-0 top-0 flex items-center justify-center bg-black [mask-image:radial-gradient(ellipse_at_center,transparent_30%,black)]"></div>
 
         <div className="h-[50vh] absolute w-full top-0"
           style={{

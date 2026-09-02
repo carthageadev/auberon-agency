@@ -34,3 +34,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# media
+public/medias/*.glb
+!public/medias/roman_coins.glb
+

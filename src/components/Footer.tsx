@@ -77,7 +77,15 @@ export function Footer() {
     }, []);
 
     return (
-        <footer className="flex relative flex-col container py-12 h-screen justify-evenly">
+        <footer className="flex relative flex-col container py-12 min-h-screen justify-evenly overflow-hidden">
+            <div className="pointer-events-none absolute inset-0 bg-grid-white/[0.05] [mask-image:radial-gradient(ellipse_at_center,black_25%,transparent_75%)]" />
+            <div
+                className="pointer-events-none absolute inset-x-0 top-0 h-[30vh] w-full"
+                style={{
+                    background: "linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)"
+                }}
+            />
+            <div className="relative z-10 flex flex-col flex-1 justify-evenly">
             <div className='flex flex-col'>
                 <ul className="flex flex-col gap-5 uppercase w-24">
                     {['About', 'Services', 'Works', 'Contact'].map((text, index) => (
@@ -132,6 +140,7 @@ export function Footer() {
                 <div className='flex gap-10 uppercase'>
                     <span>2024 © AUBERON Agency</span>
                 </div>
+            </div>
             </div>
         </footer>
     );

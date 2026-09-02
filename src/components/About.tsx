@@ -41,7 +41,14 @@ const About = () => {
   }, [hasAnimated]);
 
   return (
-    <div className='relative flex min-h-[85vh] w-full flex-col items-center justify-center bg-black px-6 py-24 z-10 overflow-hidden'>
+    <div className='relative flex w-full flex-col items-center justify-center bg-black px-6 py-16 z-10 overflow-hidden'>
+      {/* top navy bridge — meets hero bottom fade so no hard line */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-[16vh] w-full"
+        style={{
+          background: "linear-gradient(180deg, rgba(11,13,33,1) 0%, rgba(11,13,33,0) 100%)"
+        }}
+      />
       {/* very subtle wash — mostly black, hint of navy */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(30,58,138,0.08),transparent_70%)] pointer-events-none" />
       <div className="absolute inset-0 bg-grid-white/[0.03] [mask-image:radial-gradient(ellipse_at_center,black_25%,transparent_75%)] pointer-events-none" />

@@ -158,28 +158,3 @@ html.lenis, html.lenis body {
 .orbStyle {
   animation: slideFadeInUp 1s ease forwards;
 }
-
-/* Hero marquee */
-@keyframes marquee-scroll {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.marquee-track {
-  animation: marquee-scroll 32s linear infinite;
-}
-
-.marquee-outline {
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.35);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track {
-    animation: none;
-  }
-}
