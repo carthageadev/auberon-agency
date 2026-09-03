@@ -123,8 +123,8 @@ export function ShaderBackground({ className = "" }: { className?: string }) {
     const uTime = gl.getUniformLocation(prog, "u_time");
     const uPulse = gl.getUniformLocation(prog, "u_pulse");
 
-    /* pointer velocity → pulse (spikes on move, decays to 0) */
-    const pulse = { value: 0 };
+    /* pointer velocity → pulse (eased: ramps smoothly, never jumps) */
+    const pulse = { value: 0, target: 0 };
     let lastX = -1;
     let lastY = -1;
     let lastT = 0;
@@ -134,8 +134,8 @@ export function ShaderBackground({ className = "" }: { className?: string }) {
         const speed =
           Math.hypot(e.clientX - lastX, e.clientY - lastY) /
           Math.max(1, now - lastT);
-        if (speed > 0.15) {
-          pulse.value = Math.min(0.55, pulse.value + (speed - 0.15) * 0.18);
+        if (speed > 0.2) {
+          pulse.target = Math.min(0.45, pulse.target + (speed - 0.2) * 0.08);
         }
       }
       lastX = e.clientX;
@@ -170,7 +170,8 @@ export function ShaderBackground({ className = "" }: { className?: string }) {
       draw(1.0);
     } else {
       const loop = (now: number) => {
-        pulse.value *= 0.93;
+        pulse.target *= 0.96;
+        pulse.value += (pulse.target - pulse.value) * 0.12;
         draw((now - start) / 1000);
         raf = requestAnimationFrame(loop);
       };
