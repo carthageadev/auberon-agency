@@ -12,7 +12,7 @@ const FRAG = `
 precision highp float;
 uniform vec2 u_res;
 uniform float u_time;
-uniform vec2 u_mouse;
+uniform float u_pulse; /* 0 at rest, spikes on pointer motion */
 
 float hash(vec2 p) {
   return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
@@ -34,19 +34,18 @@ void main() {
   vec2 p = uv;
   p.x *= u_res.x / u_res.y;
 
-  float t = u_time * 0.12;
+  float slow = u_time * 0.10; /* lazy drift */
+  float fast = u_time * 0.9;  /* lively ripple */
 
-  /* domain-warped plasma */
-  float w = noise(p * 2.0 + vec2(t, -t * 0.7));
-  float v = noise(p * 2.6 - vec2(t * 0.6, t) + w * 0.9);
-  float plasma = sin((p.x * 2.4 + p.y * 3.1) + v * 4.2 + t * 1.5) * 0.5 + 0.5;
-  plasma = smoothstep(0.15, 0.95, plasma * 0.65 + v * 0.45);
+  /* slow travelling field + fast rippling detail */
+  float w = noise(vec2(p.x * 2.0 - slow * 0.6, p.y * 2.0) + vec2(0.0, -slow * 0.4));
+  float v = noise(p * 3.4 + vec2(-fast * 0.35, fast * 0.22) + w * 1.1);
+  float v2 = noise(p * 7.0 + vec2(fast * 0.5, -fast * 0.4) + v);
 
-  /* pointer glow */
-  vec2 m = u_mouse;
-  m.x *= u_res.x / u_res.y;
-  float md = distance(p, m);
-  float glow = exp(-md * md * 9.0);
+  /* pulse briefly tightens + brightens the wave */
+  float kick = 1.0 + u_pulse * 0.9;
+  float plasma = sin((p.x * 3.0 + p.y * 4.2) * kick + (v * 4.5 + v2 * 1.5) + fast * 0.9) * 0.5 + 0.5;
+  plasma = smoothstep(0.2, 0.9, plasma * 0.6 + v * 0.5);
 
   vec3 paper = vec3(0.949, 0.945, 0.929); /* #F2F1ED */
   vec3 ice   = vec3(0.741, 0.839, 0.949); /* light blue */
@@ -54,7 +53,9 @@ void main() {
 
   vec3 col = mix(paper, ice, plasma * 0.85);
   col = mix(col, deep, smoothstep(0.55, 1.0, plasma) * 0.45);
-  col += vec3(0.75, 0.85, 1.0) * glow * 0.35;
+
+  /* sleek surge while the pointer moves */
+  col += vec3(0.62, 0.76, 0.95) * (u_pulse * 0.35 * smoothstep(0.25, 0.95, plasma));
 
   /* animated grain */
   float g = hash(uv * u_res * 0.5 + fract(u_time) * 371.0) - 0.5;
@@ -120,14 +121,24 @@ export function ShaderBackground({ className = "" }: { className?: string }) {
 
     const uRes = gl.getUniformLocation(prog, "u_res");
     const uTime = gl.getUniformLocation(prog, "u_time");
-    const uMouse = gl.getUniformLocation(prog, "u_mouse");
+    const uPulse = gl.getUniformLocation(prog, "u_pulse");
 
-    const mouse = { x: 0.5, y: 0.5 };
+    /* pointer velocity → pulse (spikes on move, decays to 0) */
+    const pulse = { value: 0 };
+    let lastX = -1;
+    let lastY = -1;
+    let lastT = 0;
     const onMove = (e: PointerEvent) => {
-      const r = canvas.getBoundingClientRect();
-      if (r.width === 0 || r.height === 0) return;
-      mouse.x = (e.clientX - r.left) / r.width;
-      mouse.y = 1 - (e.clientY - r.top) / r.height;
+      const now = performance.now();
+      if (lastX >= 0 && now > lastT) {
+        const speed =
+          Math.hypot(e.clientX - lastX, e.clientY - lastY) /
+          Math.max(1, now - lastT);
+        pulse.value = Math.min(1.4, pulse.value + speed * 0.9);
+      }
+      lastX = e.clientX;
+      lastY = e.clientY;
+      lastT = now;
     };
     window.addEventListener("pointermove", onMove, { passive: true });
 
@@ -149,7 +160,7 @@ export function ShaderBackground({ className = "" }: { className?: string }) {
     const draw = (t: number) => {
       gl.uniform2f(uRes, canvas.width, canvas.height);
       gl.uniform1f(uTime, t);
-      gl.uniform2f(uMouse, mouse.x, mouse.y);
+      gl.uniform1f(uPulse, pulse.value);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
     };
 
@@ -157,6 +168,7 @@ export function ShaderBackground({ className = "" }: { className?: string }) {
       draw(1.0);
     } else {
       const loop = (now: number) => {
+        pulse.value *= 0.93;
         draw((now - start) / 1000);
         raf = requestAnimationFrame(loop);
       };
