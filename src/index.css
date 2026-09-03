@@ -126,16 +126,16 @@ section[id] {
 /* slow drift + twist + breathing width (transform-only, GPU cheap) */
 @keyframes rift-sway {
   0%, 100% {
-    transform: translateX(-50%) rotate(-11deg) skewX(0deg) scaleY(0.85) translateY(0);
+    transform: rotate(-8deg) skewX(0deg) scaleY(0.85) translateY(0);
   }
   30% {
-    transform: translateX(-50%) rotate(-10.2deg) skewX(-1.2deg) scaleY(1.12) translateY(-12px);
+    transform: rotate(-7.3deg) skewX(-1.2deg) scaleY(1.12) translateY(-10px);
   }
   55% {
-    transform: translateX(-50%) rotate(-11.6deg) skewX(1deg) scaleY(0.95) translateY(6px);
+    transform: rotate(-8.5deg) skewX(1deg) scaleY(0.95) translateY(5px);
   }
   80% {
-    transform: translateX(-50%) rotate(-10.6deg) skewX(-0.6deg) scaleY(1.06) translateY(-6px);
+    transform: rotate(-7.7deg) skewX(-0.6deg) scaleY(1.06) translateY(-5px);
   }
 }
 

@@ -61,7 +61,7 @@ function Hero() {
       {/* thin diagonal plasma stripe, low-left → high-right, behind the type */}
       <div
         aria-hidden
-        className="rift-sway pointer-events-none absolute left-1/2 top-[58%] z-0 h-[90px] w-[160vw] -translate-x-1/2 opacity-80 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] md:h-[120px]"
+        className="rift-sway pointer-events-none absolute left-[-10vw] top-[62%] z-0 h-[90px] w-[120vw] opacity-80 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] md:h-[120px]"
       >
         <ShaderBackground className="h-full w-full" />
       </div>
