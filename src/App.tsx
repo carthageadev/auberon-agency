@@ -39,7 +39,7 @@ function Fade({
 
 function Nav() {
   return (
-    <header className="fixed top-0 inset-x-0 z-50 bg-[#F2F1ED]/85 backdrop-blur-md">
+    <header className="fixed top-0 inset-x-0 z-50 bg-[#F2F1ED]/60 backdrop-blur-md">
       <div className="wrap flex items-center justify-between h-16">
         <a href="#top" className="text-[13px] tracking-[0.18em] uppercase">
           Auberon
