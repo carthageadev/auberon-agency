@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Newsreader", Georgia, serif;
+  --color-paper: #F2F1ED;
+  --color-ink: #16160F;
+  --color-muted: #74736C;
+  --color-line: #DEDCD5;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #F2F1ED;
+  color: #16160F;
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: #16160F;
+  color: #F2F1ED;
+}
+
+section[id] {
+  scroll-margin-top: 96px;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 68rem;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+@media (min-width: 768px) {
+  .wrap { padding-inline: 2.5rem; }
+}
+
+.rule {
+  height: 1px;
+  background: #DEDCD5;
+}
+
+/* quiet link underline */
+.ul {
+  background-image: linear-gradient(#16160F, #16160F);
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  transition: background-size 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  padding-bottom: 2px;
+}
+.ul:hover { background-size: 100% 1px; }
+
+/* ------------------------- soda can hover-switch ------------------------- */
+.product {
+  position: absolute;
+  right: 0;
+  transform: translateX(60%);
+  bottom: calc(-10vw);
+  z-index: 2;
+  width: 500px;
+  transition: 0.7s;
+  /* overlap both cans in one cell so they cross-fade in place */
+  display: grid;
+}
+
+.soda {
+  grid-area: 1 / 1;
+  width: 250px;
+  aspect-ratio: 2 / 4;
+  background: var(--url) var(--left, 0px),
+    url(/sodaimage/mockup.png) 0 0;
+  background-size: auto 100%;
+  background-blend-mode: multiply;
+  -webkit-mask-image: url(/sodaimage/mockup.png);
+  mask-image: url(/sodaimage/mockup.png);
+  -webkit-mask-size: auto 100%;
+  mask-size: auto 100%;
+  transition: 0.8s;
+}
+
+.soda:nth-child(2) {
+  opacity: 0;
+}
+
+.brandContainer:hover .product {
+  bottom: 100px;
+}
+
+.brandContainer:hover .product .soda:nth-child(2) {
+  opacity: 1;
+  --left: 500px;
+}
+
+.brandContainer:hover .product .soda:nth-child(1) {
+  opacity: 0;
+  --left: 500px;
+}
+
+@media (max-width: 767px) {
+  .soda {
+    width: 150px;
+  }
+  .product {
+    bottom: -260px;
+  }
+  .brandContainer:hover .product {
+    bottom: -150px;
+  }
+  .brandContainer:hover .product .soda:nth-child(2) {
+    --left: 300px;
+  }
+  .brandContainer:hover .product .soda:nth-child(1) {
+    --left: 300px;
+  }
+}
