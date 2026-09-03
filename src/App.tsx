@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import { ShaderBackground } from "./components/ui/light-blue-plasma-shader-w-grain-interactive";
 
 /* --------------------------------- content -------------------------------- */
 
@@ -56,7 +57,15 @@ function Nav() {
 
 function Hero() {
   return (
-    <section id="top" className="wrap pt-40 pb-24 md:pt-52 md:pb-32">
+    <section id="top" className="wrap relative pt-40 pb-24 md:pt-52 md:pb-32">
+      {/* thin diagonal plasma stripe, low-left → high-right, behind the type */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-[58%] z-0 h-[150px] w-[160vw] -translate-x-1/2 -rotate-[11deg] opacity-80 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] md:h-[190px]"
+      >
+        <ShaderBackground className="h-full w-full" />
+      </div>
+      <div className="relative z-10">
       <Fade>
         <p className="text-[12px] tracking-[0.2em] uppercase text-[#74736C]">
           Design studio — since 2017
@@ -82,6 +91,7 @@ function Hero() {
           <ArrowUpRight className="w-4 h-4" strokeWidth={1.5} />
         </a>
       </Fade>
+      </div>
     </section>
   );
 }
