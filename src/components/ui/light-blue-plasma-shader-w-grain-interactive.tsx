@@ -43,7 +43,7 @@ void main() {
   float v2 = noise(p * 7.0 + vec2(fast * 0.5, -fast * 0.4) + v);
 
   /* pulse briefly tightens + brightens the wave */
-  float kick = 1.0 + u_pulse * 0.9;
+  float kick = 1.0 + u_pulse * 0.35;
   float plasma = sin((p.x * 3.0 + p.y * 4.2) * kick + (v * 4.5 + v2 * 1.5) + fast * 0.9) * 0.5 + 0.5;
   plasma = smoothstep(0.2, 0.9, plasma * 0.6 + v * 0.5);
 
@@ -55,7 +55,7 @@ void main() {
   col = mix(col, deep, smoothstep(0.55, 1.0, plasma) * 0.45);
 
   /* sleek surge while the pointer moves */
-  col += vec3(0.62, 0.76, 0.95) * (u_pulse * 0.35 * smoothstep(0.25, 0.95, plasma));
+  col += vec3(0.62, 0.76, 0.95) * (u_pulse * 0.12 * smoothstep(0.25, 0.95, plasma));
 
   /* animated grain */
   float g = hash(uv * u_res * 0.5 + fract(u_time) * 371.0) - 0.5;
@@ -134,7 +134,9 @@ export function ShaderBackground({ className = "" }: { className?: string }) {
         const speed =
           Math.hypot(e.clientX - lastX, e.clientY - lastY) /
           Math.max(1, now - lastT);
-        pulse.value = Math.min(1.4, pulse.value + speed * 0.9);
+        if (speed > 0.15) {
+          pulse.value = Math.min(0.55, pulse.value + (speed - 0.15) * 0.18);
+        }
       }
       lastX = e.clientX;
       lastY = e.clientY;
