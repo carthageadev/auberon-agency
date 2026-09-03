@@ -223,7 +223,7 @@ function Footer() {
       <div className="rule mb-6" />
       <div className="flex flex-wrap items-center justify-between gap-3 text-[13px] text-[#A6A49B]">
         <span>Auberon — Paris</span>
-        <span>© 2025</span>
+        <span>© {new Date().getFullYear()}</span>
       </div>
     </footer>
   );
